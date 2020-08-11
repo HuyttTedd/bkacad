@@ -28,6 +28,6 @@ class Sequences extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('_sequence');
     }
 }

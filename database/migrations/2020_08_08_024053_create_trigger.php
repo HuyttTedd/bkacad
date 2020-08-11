@@ -33,7 +33,7 @@ class CreateTrigger extends Migration
         CREATE TRIGGER major_auto BEFORE INSERT ON majors
         FOR each ROW
         BEGIN
-           SET NEW.id = getNextCustomSeq("major","BKA");
+           SET NEW.id = getNextCustomSeq("major","BKM");
         END
         ');
 

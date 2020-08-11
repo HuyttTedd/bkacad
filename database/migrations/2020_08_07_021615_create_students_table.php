@@ -19,11 +19,13 @@ class CreateStudentsTable extends Migration
             $table->boolean('gender');
             $table->date('dob');
             $table->string('phone');
-            $table->string('email');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->tinyInteger('status');
             $table->string('class_id');
             $table->foreign('class_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
