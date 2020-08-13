@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/createdata', 'TestController@test');
 
+//Route::get('/createdata', 'TestController@test');
+Route::get('/xep_lop', 'ManagerController@xep_lop')->name('xep_lop');
