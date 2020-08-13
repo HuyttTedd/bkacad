@@ -21,7 +21,7 @@ class CreateStaffTable extends Migration
             $table->string('phone');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->default('123456');
             $table->tinyInteger('status');
             $table->tinyInteger('level');
             $table->rememberToken();

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Grade extends Model
+class ClassStudent extends Model
 {
-    protected $keyType = 'string';
+    //
 }

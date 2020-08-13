@@ -19,8 +19,8 @@ class CreateSubjectsTable extends Migration
             //$table->string('major_id'); //mã ngành
             $table->integer('time_total'); //thời gian học
             $table->tinyInteger('test_type'); //loại thi
-            $table->string('major_id');
-            $table->foreign('major_id')->references('id')->on('majors')->onDelete('cascade');  //mã ngành
+            //$table->string('major_id');
+            //$table->foreign('major_id')->references('id')->on('majors')->onDelete('cascade');  //mã ngành
             $table->timestamps();
         });
     }

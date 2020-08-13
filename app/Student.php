@@ -10,5 +10,5 @@ class Student extends Model
         'name', 'gender', 'dob', 'phone', 'email', 'password', 'status', 'class_id',
     ];
 
-    
+    protected $keyType = 'string';
 }

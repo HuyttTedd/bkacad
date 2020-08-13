@@ -9,8 +9,8 @@ class TestController extends Controller
 {
     public function test() {
 
-        // $major = Major::all();
-        // return($major);
+        $major = Major::all(['id']);
+        return($major->first());
         // return view('test', compact('major'));
         //$a = new DatabaseSeeder();
 
