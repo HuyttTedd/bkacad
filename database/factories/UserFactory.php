@@ -52,9 +52,7 @@ $factory->define(App\MajorSubject::class, function (Faker $faker) {
 
     static $combos;
     $combos = $combos ?: [];
-
     $subject = App\Subject::all(['id'])->random();
-
     $major = App\Major::all(['id'])->random();
     $sub_maj = [$subject, $major];
     while(in_array($sub_maj, $combos)) {
