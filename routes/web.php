@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/createdata', 'TestController@test');
 Route::get('/xep_lop', 'ManagerController@xep_lop')->name('xep_lop');
+Route::get('/view_khoa_hoc', 'ManagerController@view_khoa_hoc')->name('view_khoa_hoc');
+Route::get('/view_khoa_hoc/{khoa_hoc}', 'ManagerController@khoa_hoc_chi_tiet')->name('khoa_hoc_chi_tiet');
