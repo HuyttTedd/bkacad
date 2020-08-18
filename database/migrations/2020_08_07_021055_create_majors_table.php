@@ -15,7 +15,7 @@ class CreateMajorsTable extends Migration
     {
         Schema::create('majors', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('name'); //tên ngành học
+            $table->string('name')->unique(); //tên ngành học
             $table->timestamps();
         });
     }

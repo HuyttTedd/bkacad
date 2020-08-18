@@ -15,7 +15,7 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('name'); //tên khóa học
+            $table->string('name')->unique(); //tên khóa học
             $table->timestamps();
         });
     }

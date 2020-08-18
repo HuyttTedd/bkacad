@@ -15,7 +15,7 @@ class CreateSubjectsTable extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('name');
+            $table->string('name')->unique();
             //$table->string('major_id'); //mã ngành
             $table->integer('time_total'); //thời gian học
             $table->tinyInteger('test_type'); //loại thi

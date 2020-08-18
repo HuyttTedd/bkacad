@@ -16,12 +16,11 @@ class CreateClassRoomsTable extends Migration
         //Bảng lớp học
         Schema::create('class_rooms', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('course_id');
             $table->string('major_id');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('major_id')->references('id')->on('majors')->onDelete('cascade');
-
             $table->timestamps();
         });
     }
