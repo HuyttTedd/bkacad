@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use App\Student;
 use Maatwebsite\Excel\Concerns\FromCollection;
-
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ExportStudent implements FromCollection, WithHeadings

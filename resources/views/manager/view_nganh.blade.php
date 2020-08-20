@@ -16,7 +16,7 @@
     <tr>
     <td>{{ $item->id }}</td>
     <td>{{ $item->name }}</td>
-    <td><a href="/mon/{{ $item->id }}">Chi tiết các môn học</a></td>
+    <td><a href="/nganh/{{ $item->id }}/mon">Chi tiết các môn học</a></td>
     <th><a href="/nganh/{{ $item->id }}/update" onclick="confirm('Xác nhận chỉnh sửa?')">Chỉnh sửa</a></th>
     </tr>
 @endforeach

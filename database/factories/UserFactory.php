@@ -22,13 +22,13 @@ use App\Student;
 
 $factory->define(Major::class, function (Faker $faker) {
     return [
-        'name' => $faker->randomElement(['Lập trình', 'Quản trị mạng', 'Thiết kế đồ họa', 'Kinh tế']),
+        'name' => $faker->company,
     ];
 });
 ///////////////////////////////////////////////////////Subject
 $factory->define(Subject::class, function (Faker $faker) {
     return [
-        'name' => $faker->jobTitle,
+        'name' => $faker->name,
         'time_total' => $faker->randomElement([60, 120, 80, 100, 40, 20]),
         'test_type' => $faker->biasedNumberBetween($min = 0, $max = 2)
     ];
@@ -105,18 +105,20 @@ $factory->define(App\MajorSubject::class, function (Faker $faker) {
 //     ];
 // });
 
+
+
 ////Bảng sinh viên
-$factory->define(App\Student::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'gender' => $faker->biasedNumberBetween($min = 0, $max = 1),
-        'dob' => $faker->date(),
-        'phone' => $faker->phoneNumber,
-        'email' => $faker->email,
-        'status' => $faker->biasedNumberBetween($min = 0, $max = 2),
-        //'class_id' => App\ClassRoom::all(['id'])->random(),
-    ];
-});
+// $factory->define(App\Student::class, function (Faker $faker) {
+//     return [
+//         'name' => $faker->name,
+//         'gender' => $faker->biasedNumberBetween($min = 0, $max = 1),
+//         'dob' => $faker->date(),
+//         'phone' => $faker->phoneNumber,
+//         'email' => $faker->email,
+//         'status' => $faker->biasedNumberBetween($min = 0, $max = 2),
+//         //'class_id' => App\ClassRoom::all(['id'])->random(),
+//     ];
+// });
 
 
 ///

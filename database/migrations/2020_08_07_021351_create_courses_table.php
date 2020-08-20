@@ -16,6 +16,10 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name')->unique(); //tên khóa học
+            $table->tinyInteger('status')->default('0');
+            // 0: đang tuyển sinh
+            // 1: đang học
+            // 2: đã học xong
             $table->timestamps();
         });
     }

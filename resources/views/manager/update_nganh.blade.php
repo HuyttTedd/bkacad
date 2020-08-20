@@ -1,5 +1,5 @@
 <h1>Chỉnh sửa ngành --{{ $nganh->name }}--</h1>
-<form action="/nganh/update" method="POST" onsubmit="return confirm('Xác nhận chỉnh sửa?')">
+<form action="/nganh/{{ $nganh->id }}" method="POST" onsubmit="return confirm('Xác nhận chỉnh sửa?')">
     @csrf
     <input type="hidden" name="id" value="{{ $nganh->id }}">
     <div>

@@ -16,4 +16,21 @@ class Course extends Model
     {
         return $this->belongsToMany('App\Major', 'course_majors');
     }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtoupper($value);
+    }
+
+    public function getStatusAttribute($value)
+    {
+         if ($value == 0) {
+             # code...
+             return "Đang tuyển sinh!";
+         } elseif($value == 1) {
+             return "Đang học";
+         } else {
+             return "Đã học xong";
+         }
+    }
 }
