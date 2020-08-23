@@ -25,5 +25,5 @@
 @endif
 
 <div>
-<a href="/mon/add/{{ $id_nganh }}">Thêm môn</a>
+<a href="/nganh/{{ $id_nganh }}/mon/create">Thêm môn</a>
 </div>

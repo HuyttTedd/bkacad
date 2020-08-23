@@ -12,9 +12,6 @@
             Nhập dữ liệu sinh viên!
         </div>
         <div>
-            @if (has($success))
-                    {{ $success }}
-            @endif
         </div>
         <div class="card-body">
             <form action="/import_sinh_vien" method="POST" enctype="multipart/form-data">

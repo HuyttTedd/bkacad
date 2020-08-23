@@ -1,5 +1,5 @@
 <h1>Chỉnh sửa môn "{{ $mon->name }}"</h1>
-<form action="/mon/update" method="POST" onsubmit="return confirm('Xác nhận chỉnh sửa môn học này?')">
+<form action="/mon/{{ $mon->id }}" method="POST" onsubmit="return confirm('Xác nhận chỉnh sửa môn học này?')">
     @csrf
 <input type="hidden" value="{{ $mon->id }}" name="id">
     <div>

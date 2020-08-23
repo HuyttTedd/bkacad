@@ -8,7 +8,7 @@ use App\Subject;
 use App\MajorSubject;
 use App\CourseMajor;
 use App\Student;
-use App\ClassRoom;
+use App\Classes;
 use Illuminate\Http\Request;
 use Mockery\Matcher\Subset;
 
@@ -82,18 +82,18 @@ class ManagerController extends Controller
         $data = request()->validate([
             'course_id' => 'required',
             'major_id' => 'required',
-            'course_name' => 'required',
-            'major_name' => 'required',
+            // 'course_name' => 'required',
+            // 'major_name' => 'required',
         ]);
 
         $courseMajor = new CourseMajor();
-        $class = new ClassRoom(); /////tạo luôn 1 lớp chứa tất cả sinh viên nhập học
-        $class->create([
-                'name' => $data['course_name']."+".$data['major_name'],
-                'course_id' => $data['course_id'],
-                'major_id' => $data['major_id'],
+        //$class = new Classes(); /////tạo luôn 1 lớp chứa tất cả sinh viên nhập học
+        // $class->create([
+        //         'name' => $data['course_name']."+".$data['major_name'],
+        //         'course_id' => $data['course_id'],
+        //         'major_id' => $data['major_id'],
 
-        ]);
+        // ]);
         $courseMajor->create(
             [
                 'course_id' => $data['course_id'],
@@ -158,6 +158,35 @@ class ManagerController extends Controller
             $name = Major::findOrFail($id_nganh)->name;
             return view('manager.view_mon_nganh', compact('mon', 'id_nganh', 'name'));
         }
+
+
+
+   public function add_mon_nganh($id_nganh) {
+        $a = Major::findOrFail($id_nganh)->subjects()->get();
+        //print_r($a->pluck('id')->toArray());
+        //dd($a);
+        $mon = Subject::all();
+        $mon2 = $mon->diff(Subject::whereIn('id', $a->pluck('id')->toArray())->get());
+        // $mon2 = $mon->diff(Subject::whereIn('id', ['BKS10000', 'BKS10001'])->get());
+        $name = Major::findOrFail($id_nganh)->name;
+        return view('manager.add_mon_nganh', compact('mon2', 'name', 'id_nganh'));
+    }
+
+    public function store_mon_nganh($id_nganh) {
+
+        $data = request()->validate([
+            'subject_id' => 'required',
+            'major_id' => 'required',
+        ]);
+
+        $subject = new MajorSubject();
+        $subject->create(
+            [
+                'subject_id' => $data['subject_id'],
+                'major_id' => $data['major_id'],
+            ]);
+        return redirect("mon/$id_nganh");
+    }
 ///////////////////////////Mon
     public function view_mon() {
         $mon = Subject::all();
@@ -185,38 +214,6 @@ class ManagerController extends Controller
         return redirect('/mon');
     }
 
-//////////////////////////////////
-
-///////////////////////
-    public function add_mon_nganh($id_nganh) {
-        $a = Major::findOrFail($id_nganh)->subjects()->get();
-        //print_r($a->pluck('id')->toArray());
-        //dd($a);
-        $mon = Subject::all();
-        $mon2 = $mon->diff(Subject::whereIn('id', $a->pluck('id')->toArray())->get());
-        // $mon2 = $mon->diff(Subject::whereIn('id', ['BKS10000', 'BKS10001'])->get());
-        $name = Major::findOrFail($id_nganh)->name;
-        return view('manager.add_mon_nganh', compact('mon2', 'name', 'id_nganh'));
-    }
-////////////////////////////
-    public function store_mon_nganh($id_nganh) {
-
-        $data = request()->validate([
-            'subject_id' => 'required',
-            'major_id' => 'required',
-        ]);
-
-        $subject = new MajorSubject();
-        $subject->create(
-            [
-                'subject_id' => $data['subject_id'],
-                'major_id' => $data['major_id'],
-            ]);
-        return redirect("mon/$id_nganh");
-    }
-
-    ///////////////////////////
-
     public function update_mon($id_mon) {
         $mon = Subject::findOrFail($id_mon);
         //dd($mon);
@@ -233,55 +230,101 @@ class ManagerController extends Controller
         Subject::findOrFail($rq->id)->update($rq->all());
         return redirect('/mon');
     }
+//////////////////////////////////
+
+
+///////////////////////
+
+////////////////////////////
+
+
+    ///////////////////////////
+
+
 
     ////////////////////////////
-    public function view_sinh_vien() {
-        $student = Student::where('status', 0)->get();
+    // public function view_sinh_vien() {
+    //     $student = Student::where('status', 0)->get();
 
-        return view('manager.sinh_vien', compact('student'));
-    }
+    //     return view('manager.sinh_vien', compact('student'));
+    // }
 
-    public function create_sinh_vien() {
-        return view('manager.create_sinh_vien');
-    }
+    // public function create_sinh_vien() {
+    //     return view('manager.create_sinh_vien');
+    // }
 
-    public function process_create_sinh_vien(Request $rq) {
-        $data = request()->validate([
-            'name' => 'required',
-            'gender' => 'required',
-            'dob' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'status' => 'required',
-        ]);
-        $student = new Student();
-        $student->create($rq->all());
-        return redirect('/sinh_vien');
-    }
+    // public function process_create_sinh_vien(Request $rq) {
+    //     $data = request()->validate([
+    //         'name' => 'required',
+    //         'gender' => 'required',
+    //         'dob' => 'required',
+    //         'phone' => 'required',
+    //         'email' => 'required',
+    //         'status' => 'required',
+    //     ]);
+    //     $student = new Student();
+    //     $student->create($rq->all());
+    //     return redirect('/sinh_vien');
+    // }
 
-    public function update_sinh_vien($id)
-    {
-        $student = Student::findOrFail($id);
-        return view('manager.update_sinh_vien', compact('student'));
-    }
+    // public function update_sinh_vien($id)
+    // {
+    //     $student = Student::findOrFail($id);
+    //     return view('manager.update_sinh_vien', compact('student'));
+    // }
 
-    public function process_update_sinh_vien(Request $rq) {
-        $data = request()->validate([
-            'name' => 'required',
-            'gender' => 'required',
-            'dob' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'status' => 'required',
-        ]);
+    // public function process_update_sinh_vien(Request $rq) {
+    //     $data = request()->validate([
+    //         'name' => 'required',
+    //         'gender' => 'required',
+    //         'dob' => 'required',
+    //         'phone' => 'required',
+    //         'email' => 'required',
+    //         'status' => 'required',
+    //     ]);
 
-        Student::findOrFail($rq->id)->update($rq->all());
-        return redirect('/sinh_vien');
-    }
-
+    //     Student::findOrFail($rq->id)->update($rq->all());
+    //     return redirect('/sinh_vien');
+    // }
+////////////////////LOP HOC//////////////////////////////////////
     public function view_lop_hoc($id_khoa_hoc, $id_nganh) {
-        $class = ClassRoom::where('course_id', $id_khoa_hoc)->where('major_id', $id_nganh)->get();
-        return view('manager.view_lop_hoc', compact('class'));
+        $khoa_hoc = Course::findOrFail($id_khoa_hoc);
+        $nganh = Major::findOrFail($id_nganh);
+        $class = Classes::where('course_id', $id_khoa_hoc)->where('major_id', $id_nganh)->get();
+        return view('manager.view_lop_hoc', compact('class', 'khoa_hoc', 'nganh'));
     }
 
+    // public function create_lop($id_khoa_hoc, $id_nganh) {
+    //     $khoa_hoc = Course::findOrFail($id_khoa_hoc);
+    //     $nganh = Major::findOrFail($id_nganh);
+    //     $class = Classes::where('course_id', $id_khoa_hoc)->where('major_id', $id_nganh)->get();
+
+    //     return view('manager.create_lop', compact('class', 'khoa_hoc', 'nganh'));
+    // }
+
+    // public function process_create_lop(Request $rq, $id_khoa_hoc, $id_nganh) {
+    //     $total = $rq->total;
+
+    //     $countClass = Classes::count();
+
+    //     $khoa_hoc = Course::findOrFail($id_khoa_hoc);
+    //     //dd($numberOfClass);
+    //     for($i = 1; $i <= $total; $i++) {
+    //         $class = new Classes();
+    //         $class->create([
+    //         'name' => 'BKC'.($countClass + $i).($khoa_hoc->name),
+    //         'course_id' => $id_khoa_hoc,
+    //         'major_id' => $id_nganh,
+    //         ]);
+    //     }
+    //     return redirect("/class/$id_khoa_hoc/$id_nganh");
+    // }
+
+    public function import_sinh_vien($id_khoa_hoc, $id_nganh) {
+        $khoa_hoc = Course::findOrFail($id_khoa_hoc);
+        $nganh = Major::findOrFail($id_nganh);
+        return view('manager.create_lop', compact('khoa_hoc', 'nganh'));
+    }
+
+    
 }

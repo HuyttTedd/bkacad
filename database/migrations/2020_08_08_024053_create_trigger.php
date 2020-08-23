@@ -54,7 +54,7 @@ class CreateTrigger extends Migration
         ');
 
         DB::unprepared('
-        CREATE TRIGGER room_auto BEFORE INSERT ON class_rooms
+        CREATE TRIGGER room_auto BEFORE INSERT ON classes
         FOR each ROW
         BEGIN
            SET NEW.id = getNextCustomSeq("room","BKR");

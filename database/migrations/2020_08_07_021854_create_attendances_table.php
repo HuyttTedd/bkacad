@@ -24,7 +24,7 @@ class CreateAttendancesTable extends Migration
             $table->time('time_end');
             $table->foreign('lecturer_id')->references('id')->on('staffs')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->foreign('class_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ class CreateClassStudentsTable extends Migration
         Schema::create('class_students', function (Blueprint $table) {
             $table->string('student_id');
             $table->string('class_id');
-            $table->foreign('student_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->foreign('student_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('students')->onDelete('cascade');
 
         });

@@ -24,7 +24,7 @@ class CreateStudentsTable extends Migration
             $table->string('password')->default('123456');
             $table->tinyInteger('status');
             //$table->string('class_id');
-            //$table->foreign('class_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            //$table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -107,7 +107,7 @@ $factory->define(App\MajorSubject::class, function (Faker $faker) {
 
 
 
-////Bảng sinh viên
+//Bảng sinh viên
 // $factory->define(App\Student::class, function (Faker $faker) {
 //     return [
 //         'name' => $faker->name,

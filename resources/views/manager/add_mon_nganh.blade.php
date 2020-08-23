@@ -15,7 +15,7 @@
 
 @foreach ($mon2 as $item)
     <tr>
-    <form action="/mon/{{ $id_nganh }}" method="POST" onsubmit="return confirm('Xác nhận thêm môn học này vào ngành --{{ $name }}--?')">
+    <form action="/nganh/{{ $id_nganh }}/mon" method="POST" onsubmit="return confirm('Xác nhận thêm môn học này vào ngành --{{ $name }}--?')">
             @csrf
         <input type="hidden" value="{{ $item->id }}" name="subject_id">
         <input type="hidden" value="{{ $id_nganh }}" name="major_id">

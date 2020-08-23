@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClassRoomsTable extends Migration
+class CreateClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateClassRoomsTable extends Migration
     public function up()
     {
         //Bảng lớp học
-        Schema::create('class_rooms', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name')->unique();
             $table->string('course_id');
@@ -32,6 +32,6 @@ class CreateClassRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('class_rooms');
+        Schema::dropIfExists('classes');
     }
 }

@@ -4,12 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClassRoom extends Model
+class Classes extends Model
 {
     //
-    protected $table = 'class_rooms';
+    protected $table = 'classes';
     protected $keyType = 'string';
     protected $fillable = [
         'name', 'course_id', 'major_id'
     ];
+
+
 }

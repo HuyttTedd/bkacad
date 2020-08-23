@@ -18,7 +18,7 @@ class CreateAssignmentsTable extends Migration
             $table->string('subject_id');
             $table->string('lecturer_id');
             $table->foreign('lecturer_id')->references('id')->on('staffs')->onDelete('cascade');
-            $table->foreign('class_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
 
             $table->timestamps();

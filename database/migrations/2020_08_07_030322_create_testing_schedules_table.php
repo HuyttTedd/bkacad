@@ -23,7 +23,7 @@ class CreateTestingSchedulesTable extends Migration
             $table->time('time_end');
             $table->string('lecturer_id');
             $table->tinyInteger('test_times');
-            $table->foreign('class_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->foreign('lecturer_id')->references('id')->on('staffs')->onDelete('cascade');
 

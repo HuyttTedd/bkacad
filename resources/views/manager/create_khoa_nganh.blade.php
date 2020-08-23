@@ -17,8 +17,8 @@
             @csrf
         <input type="hidden" value="{{ $item->id }}" name="major_id">
         <input type="hidden" value="{{ $khoa_hoc->id }}" name="course_id">
-        <input type="hidden" value="{{ $khoa_hoc->name }}" name="course_name">
-        <input type="hidden" value="{{ $item->name }}" name="major_name">
+        {{-- <input type="hidden" value="{{ $khoa_hoc->name }}" name="course_name">
+        <input type="hidden" value="{{ $item->name }}" name="major_name"> --}}
             <td>{{ $item->id }}</td>
             <td>{{ $item->name }}</td>
             <th><input type="submit" value="Thêm ngành"></th>
