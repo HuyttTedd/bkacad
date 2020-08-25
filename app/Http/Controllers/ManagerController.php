@@ -356,10 +356,44 @@ class ManagerController extends Controller
         $arr = array();
         $phan_cong = Assignment::where('lecturer_id', $id_giang_vien)->get();
         foreach ($phan_cong as $key) {
-            array_push($arr, [$key->class_id, $key->subject_id]);
+            $class = Classes::find($key->class_id)->name;
+            $subject = Subject::find($key->subject_id)->name;
+            array_push($arr, [$class, $subject]);
         }
         //dd($arr);
         return view('manager.giang_vien_view_phan_cong', compact('arr'));
+    }
+
+    public function diem_danh($id_giang_vien) {
+        $arr = array();
+        $phan_cong = Assignment::where('lecturer_id', $id_giang_vien)->get();
+        foreach ($phan_cong as $key) {
+            $class = Classes::find($key->class_id);
+            $subject = Subject::find($key->subject_id);
+            $arr_phan_cong = [
+                'name' => "LỚP: ".$class->name." + MÔN HỌC: ".$subject->name,
+                    'class_id' => $class->id,
+                    'subject_id' => $subject->id,
+
+                ];
+            array_push($arr, $arr_phan_cong);
+        }
+        //dd($arr);
+        return view('manager.chon_lop_diem_danh', compact('arr'));
+    }
+
+    public function chon_lop_mon(Request $rq) {
+        request()->validate([
+            'classSubject' => 'required',
+        ]);
+
+        $class_subject = explode(",", $rq->classSubject);
+        $class_id = $class_subject[0];
+        $subject_id = $class_subject[1];
+
+        $student = Classes::find($class_id)->students()->get();
+        //dd($student);
+        return view('manager.diem_danh', compact('student', 'class_id', 'subject_id'));
     }
 }
 

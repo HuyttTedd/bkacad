@@ -108,4 +108,8 @@ Route::post('/phan_cong', 'ManagerController@process_phan_cong');
 
 
 //////////////// giảng viên xem phân công
-Route::get('/phan_cong/{id_giang_vien}', 'ManagerController@view_phan_cong');
+//Giảng viên đăng nhập rồi nhấn vào button "phân công"
+Route::get('/xem_phan_cong/{id_giang_vien}', 'ManagerController@view_phan_cong');
+Route::get('/chon_lop_diem_danh/{id_giang_vien}', 'ManagerController@diem_danh');
+Route::post('/chon_lop_diem_danh', 'ManagerController@chon_lop_mon');
+
