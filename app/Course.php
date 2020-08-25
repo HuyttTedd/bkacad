@@ -17,6 +17,10 @@ class Course extends Model
         return $this->belongsToMany('App\Major', 'course_majors');
     }
 
+    public function classes() {
+        return $this->hasMany('App\Classes', 'course_id', 'id');
+    }
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = strtoupper($value);

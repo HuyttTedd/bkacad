@@ -9,6 +9,8 @@ use App\MajorSubject;
 use App\CourseMajor;
 use App\Student;
 use App\Classes;
+use App\Assignment;
+use App\Staff;
 use Illuminate\Http\Request;
 use Mockery\Matcher\Subset;
 
@@ -267,25 +269,25 @@ class ManagerController extends Controller
     //     return redirect('/sinh_vien');
     // }
 
-    // public function update_sinh_vien($id)
-    // {
-    //     $student = Student::findOrFail($id);
-    //     return view('manager.update_sinh_vien', compact('student'));
-    // }
+    public function update_sinh_vien($id)
+    {
+        $student = Student::findOrFail($id);
+        return view('manager.update_sinh_vien', compact('student'));
+    }
 
-    // public function process_update_sinh_vien(Request $rq) {
-    //     $data = request()->validate([
-    //         'name' => 'required',
-    //         'gender' => 'required',
-    //         'dob' => 'required',
-    //         'phone' => 'required',
-    //         'email' => 'required',
-    //         'status' => 'required',
-    //     ]);
+    public function process_update_sinh_vien(Request $rq) {
+        $data = request()->validate([
+            'name' => 'required',
+            'gender' => 'required',
+            'dob' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'status' => 'required',
+        ]);
 
-    //     Student::findOrFail($rq->id)->update($rq->all());
-    //     return redirect('/sinh_vien');
-    // }
+        Student::findOrFail($rq->id)->update($rq->all());
+        return redirect('/sinh_vien');
+    }
 ////////////////////LOP HOC//////////////////////////////////////
     public function view_lop_hoc($id_khoa_hoc, $id_nganh) {
         $khoa_hoc = Course::findOrFail($id_khoa_hoc);
@@ -326,5 +328,39 @@ class ManagerController extends Controller
         return view('manager.create_lop', compact('khoa_hoc', 'nganh'));
     }
 
-    
+    public function view_lop_sinh_vien($id_lop) {
+        $sinh_vien = Classes::findOrFail($id_lop)->students()->get();
+        $lop = Classes::findOrFail($id_lop);
+        return view('manager.view_lop_sinh_vien', compact('lop', 'sinh_vien'));
+    }
+
+    public function phan_cong($id_khoa_hoc, $id_nganh) {
+        $khoa_hoc = Course::find($id_khoa_hoc);
+        $nganh = Major::find($id_nganh);
+        $giang_vien = Staff::all();
+        return view('manager.phan_cong', compact('khoa_hoc', 'nganh', 'giang_vien'));
+    }
+
+    public function process_phan_cong(Request $rq) {
+        Assignment::updateOrCreate([
+            'class_id' => $rq->class_id,
+            'subject_id' => $rq->subject_id],[
+            'lecturer_id' =>$rq->lecturer_id,
+        ]);
+
+        redirect('/phan_cong');
+    }
+
+
+    public function view_phan_cong($id_giang_vien) {
+        $arr = array();
+        $phan_cong = Assignment::where('lecturer_id', $id_giang_vien)->get();
+        foreach ($phan_cong as $key) {
+            array_push($arr, [$key->class_id, $key->subject_id]);
+        }
+        //dd($arr);
+        return view('manager.giang_vien_view_phan_cong', compact('arr'));
+    }
 }
+
+

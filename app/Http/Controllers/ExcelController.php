@@ -30,7 +30,8 @@ class ExcelController extends Controller
             'total' => 'required',
             'each' => 'required',
         ]);
-
+        //$lastClass = Student::all()->last()->id;
+        //dd($lastClass);
         // $a = $rq->all();
         // dd($a);
         $course_id = $rq->course_id;
@@ -50,9 +51,10 @@ class ExcelController extends Controller
 
         // $numOfClass = ceil((int)$total / (int)$each);
         // $lastClasses = Classes::orderBy('id', 'DESC')->limit($numOfClass);
+        // $student =
         //     ClassStudent::create([
         //         'student_id' => $student->id,
-        //         'class_id' => $lastClass->id,
+        //         'class_id' => $lastClasses->id,
         //     ]);
         return redirect('/import_sinh_vien');
     }

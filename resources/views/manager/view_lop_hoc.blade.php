@@ -17,7 +17,7 @@
     <tr>
     <td>{{ $item->id }}</td>
     <td>{{ $item->name }}</td>
-    <td></td>
+    <td>{{ $item->students()->get()->count() }}</td>
     <td><a href="/class/{{ $item->id }}/sinh_vien">Danh sách sinh viên</a></td>
     </tr>
 @endforeach

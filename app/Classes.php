@@ -13,5 +13,15 @@ class Classes extends Model
         'name', 'course_id', 'major_id'
     ];
 
+    public function students() {
+        return $this->belongsToMany('App\Student', 'class_students', 'class_id', 'student_id');
+    }
 
+    public function course() {
+        return $this->belongsTo('App\Course', 'course_id');
+    }
+
+    public function major() {
+        return $this->belongsTo('App\Major', 'major_id');
+    }
 }

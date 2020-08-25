@@ -35,6 +35,7 @@ class StudentImport implements ToCollection, WithHeadingRow
         $arr = array();
         //$this->data = $arr;
         $arr = $this->data;
+        // $arr_sinh_vien_lop = array();
         // $numOfClass = ceil((int)$arr['total'] / (int)$arr['each']);
         foreach ($rows as $row)
         {
@@ -50,6 +51,7 @@ class StudentImport implements ToCollection, WithHeadingRow
             ]);
 
             $student = Student::all()->last();
+
             if($i % (int)$arr['each'] == 0) {
                 $count = Classes::all()->count();
                 Classes::create([
@@ -59,13 +61,27 @@ class StudentImport implements ToCollection, WithHeadingRow
             ]);
             }
 
+            // $b = [
+            //     'student_id' => $student->id,
+            //     'class_id' => $lastClass->id,
+            // ];
+            // array_push($arr_sinh_vien_lop, $b);
             $lastClass = Classes::all()->last();
             ClassStudent::create([
                 'student_id' => $student->id,
                 'class_id' => $lastClass->id,
             ]);
+
             $i++;
         }
+
+        // foreach ($arr_sinh_vien_lop as $key => $value) {
+        //     # code...
+        //     ClassStudent::create([
+        //         'student_id' => $value['student_id'],
+        //         'class_id' => $value['class_id'],
+        //     ]);
+        // }
 
 
 
@@ -90,4 +106,6 @@ class StudentImport implements ToCollection, WithHeadingRow
     //     ]);
     // }
 }
+
+
 }

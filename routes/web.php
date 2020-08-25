@@ -59,11 +59,11 @@ Route::post('/mon/{id_mon}', 'ManagerController@process_update_mon');
 //Route::post('/mon/{id_nganh}', 'ManagerController@store_mon_nganh');
  //dùng option
 ////////////////////CLASS
-
+Route::get('/class/{id_lop}/sinh_vien', 'ManagerController@view_lop_sinh_vien');
 Route::get('/class/{id_khoa_hoc}/{id_nganh_hoc}', 'ManagerController@view_lop_hoc');
 Route::get('/class/{id_khoa_hoc}/{id_nganh_hoc}/create', 'ManagerController@create_lop');
 Route::post('/class/{id_khoa_hoc}/{id_nganh_hoc}', 'ManagerController@process_create_lop');
-Route::get('/class/{id_lop}/sinh_vien', 'ManagerController@view_lop_sinh_vien');
+
 
  ///////////////////
  ///////////////////Chưa xong/////////////////////////////////////////////
@@ -97,3 +97,15 @@ Route::post('/sinh_vien', 'ManagerController@process_create_sinh_vien');
 Route::get('/sinh_vien/{id}/update', 'ManagerController@update_sinh_vien');
 
 Route::post('/sinh_vien/{id}', 'ManagerController@process_update_sinh_vien');
+
+
+
+//test
+//Route::get('/test/{id}', 'ManagerController@testt');
+///////////////////////////////////////////////////////PHÂN CÔNG////////////////////
+Route::get('/phan_cong/{id_khoa_hoc}/{id_nganh}', 'ManagerController@phan_cong');
+Route::post('/phan_cong', 'ManagerController@process_phan_cong');
+
+
+//////////////// giảng viên xem phân công
+Route::get('/phan_cong/{id_giang_vien}', 'ManagerController@view_phan_cong');

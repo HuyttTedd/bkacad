@@ -24,4 +24,8 @@ class Major extends Model
     {
         return $this->belongsToMany('App\Subject', 'major_subject');
     }
+
+    public function classes() {
+        return $this->hasMany('App\Classes', 'major_id', 'id');
+    }
 }

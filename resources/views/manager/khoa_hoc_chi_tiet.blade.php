@@ -8,7 +8,7 @@
     <tr>
         <th>Mã ngành học</th>
         <th>Tên ngành học</th>
-        <th colspan="2"></th>
+        <th colspan="3"></th>
     </tr>
 
     @foreach ($nganh as $item)
@@ -17,10 +17,10 @@
             <td>{{ $item->name }}</td>
             <td><a href="/class/{{ $khoa_hoc->id }}/{{ $item->id }}">Chi tiết lớp học</a></td>
             <td><a href="">Danh sách sinh viên</a></td>
+            <td><a href="/phan_cong/{{ $khoa_hoc->id }}/{{ $item->id }}">Phân công</a></td>
     </tr>
     @endforeach
 </table>
-
 @endif
 
 <div>
@@ -28,10 +28,5 @@
         <div>
             <a href="/khoa_hoc/{{ $khoa_hoc->id }}/nganh/create">Thêm ngành</a>
         </div>
-
-        {{-- <div>
-            <a href="/sinh_vien/khoa_hoc">Thêm sinh viên</a>
-        </div> --}}
     @endif
-
 </div>
