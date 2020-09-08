@@ -20,16 +20,31 @@
         </select>
 
     </div>
-    <div>
+
         <div>Chọn lớp:</div>
-        <select name="class_id" id="">
+
             @foreach ($nganh->classes()->get() as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                {{-- <option value="{{ $item->id }}">{{ $item->name }}</option> --}}
+                <div>
+                <input type="checkbox" value="{{ $item->id }}" name="class[]">
+                <label for="">{{ $item->name }}</label>
+                </div>
+
             @endforeach
-        </select>
+            <input type="checkbox" onclick="toggle(this);" />Chọn tất cả<br />
 
     </div>
     <div>
         <input type="submit" value="Xác nhận">
     </div>
 </form>
+
+<script>
+    function toggle(source) {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i] != source)
+            checkboxes[i].checked = source.checked;
+    }
+}
+</script>

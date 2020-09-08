@@ -35,6 +35,7 @@ class StudentImport implements ToCollection, WithHeadingRow
         $arr = array();
         //$this->data = $arr;
         $arr = $this->data;
+        //$rows = array_filter($rows);
         // $arr_sinh_vien_lop = array();
         // $numOfClass = ceil((int)$arr['total'] / (int)$arr['each']);
         foreach ($rows as $row)

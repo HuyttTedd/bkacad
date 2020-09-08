@@ -13,4 +13,6 @@ class ClassStudent extends Model
         'class_id', 'student_id',
     ];
     public $timestamps = false;
+
+
 }

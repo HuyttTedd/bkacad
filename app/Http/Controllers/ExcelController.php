@@ -49,13 +49,6 @@ class ExcelController extends Controller
 
         Excel::import(new StudentImport($data),request()->file('file'));
 
-        // $numOfClass = ceil((int)$total / (int)$each);
-        // $lastClasses = Classes::orderBy('id', 'DESC')->limit($numOfClass);
-        // $student =
-        //     ClassStudent::create([
-        //         'student_id' => $student->id,
-        //         'class_id' => $lastClasses->id,
-        //     ]);
         return redirect('/import_sinh_vien');
     }
 }

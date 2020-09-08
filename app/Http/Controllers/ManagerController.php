@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Carbon;
 use App\Course;
 use App\Major;
 use App\Subject;
@@ -10,6 +10,8 @@ use App\CourseMajor;
 use App\Student;
 use App\Classes;
 use App\Assignment;
+use App\Attendance;
+use App\AttendanceDetail;
 use App\Staff;
 use Illuminate\Http\Request;
 use Mockery\Matcher\Subset;
@@ -342,17 +344,24 @@ class ManagerController extends Controller
     }
 
     public function process_phan_cong(Request $rq) {
-        Assignment::updateOrCreate([
-            'class_id' => $rq->class_id,
+
+
+        $arr = $rq->input('class');
+        foreach ($arr as $key => $value) {
+                Assignment::updateOrCreate([
+            'class_id' => $value,
             'subject_id' => $rq->subject_id],[
             'lecturer_id' =>$rq->lecturer_id,
         ]);
+        }
 
+        //dd($arr);
         redirect('/phan_cong');
     }
 
-
+//giảng viên xem phân công của mình
     public function view_phan_cong($id_giang_vien) {
+
         $arr = array();
         $phan_cong = Assignment::where('lecturer_id', $id_giang_vien)->get();
         foreach ($phan_cong as $key) {
@@ -361,17 +370,25 @@ class ManagerController extends Controller
             array_push($arr, [$class, $subject]);
         }
         //dd($arr);
+
         return view('manager.giang_vien_view_phan_cong', compact('arr'));
     }
 
     public function diem_danh($id_giang_vien) {
+        $lastAtt = Attendance::where('lecturer_id', $id_giang_vien)->orderBy('id', 'DESC')->first();
+        $att_id = $lastAtt->id;
+        $date_time = Carbon::now()->toDateTimeString();
+        $get_time = explode(" ", $date_time);
+        if($get_time[0] > $lastAtt->date || $get_time[1] > $lastAtt->time_end) {
+                    //dd(date('H', $date_time));
+        //dd($get_time);
         $arr = array();
         $phan_cong = Assignment::where('lecturer_id', $id_giang_vien)->get();
         foreach ($phan_cong as $key) {
             $class = Classes::find($key->class_id);
             $subject = Subject::find($key->subject_id);
             $arr_phan_cong = [
-                'name' => "LỚP: ".$class->name." + MÔN HỌC: ".$subject->name,
+                    'name' => "LỚP: ".$class->name." + MÔN HỌC: ".$subject->name,
                     'class_id' => $class->id,
                     'subject_id' => $subject->id,
 
@@ -379,21 +396,117 @@ class ManagerController extends Controller
             array_push($arr, $arr_phan_cong);
         }
         //dd($arr);
-        return view('manager.chon_lop_diem_danh', compact('arr'));
+        return view('manager.chon_lop_diem_danh', compact('arr', 'id_giang_vien'));
+        }
+
     }
 
-    public function chon_lop_mon(Request $rq) {
+
+
+    public function process_chon_lop_mon(Request $rq) {
         request()->validate([
             'classSubject' => 'required',
         ]);
-
+        $id_giang_vien = $rq->lecturer_id;
         $class_subject = explode(",", $rq->classSubject);
         $class_id = $class_subject[0];
         $subject_id = $class_subject[1];
-
-        $student = Classes::find($class_id)->students()->get();
+        session([
+            'class_id' => $class_id,
+            'subject_id' => $subject_id,
+            'lecturer_id' => $id_giang_vien,
+        ]);
         //dd($student);
-        return view('manager.diem_danh', compact('student', 'class_id', 'subject_id'));
+        return redirect("/view_diem_danh");
+    }
+
+    public function view_diem_danh(Request $rq) {
+        $view_diem_danh = $rq->session()->all();
+        $class = Classes::findOrFail($view_diem_danh['class_id']);
+        $subject = Subject::findOrFail($view_diem_danh['subject_id']);
+        $student = Classes::find($class->id)->students()->get();
+        $id_giang_vien = $view_diem_danh['lecturer_id'];
+        $each_att_id = Attendance::where('class_id', $class->id)->where('subject_id', $subject->id)->pluck('id');
+        //dd($each_att_id);
+        $arr = [];
+        $arrr = [];
+        foreach ($student as $key1) {
+                $arr[$key1->id]['sum'] = 0;
+        }
+
+        foreach ($each_att_id as $key => $value) {
+
+            $id_att = AttendanceDetail::where('attendance_id', $value)->get();
+            foreach ($id_att as $valuee) {
+                if($valuee->status == 0) {
+                    $count = 0;
+                } elseif($valuee->status == 2) {
+                    $count = 1;
+                } else {
+                    $count = (float)1/3;
+                }
+
+                $arr[$valuee->student_id]['sum'] += $count;
+                // array_push($arrr, [$valuee->attendance_id, $valuee->student_id]);
+            }
+
+        }
+        //dd($arr);
+        return view('manager.diem_danh', compact('student', 'class', 'subject', 'id_giang_vien', 'arr'));
+    }
+
+    //đi học :0, muộn: 1; nghỉ: 2; có phép: 3
+    //đi học :0, muộn: 1; nghỉ: 2; có phép: 3
+
+    public function process_diem_danh(Request $rq) {
+        request()->validate([
+            //validate bắt đầu vs kết thúc dùng javaScript
+
+            'start_hour' => 'required',
+            'start_minute' => 'required',
+            'end_hour' => 'required',
+            'end_minute' => 'required',
+            'end_hour' => 'gt:start_hour',
+            'start_hour' => 'numeric|between:6,23',
+            'end_hour' => 'numeric|between:6,23',
+        ]);
+        $date = Carbon::now()->toDateString();
+        //dd($date);
+        $time_start = $rq->start_hour.":".$rq->start_minute;
+        $time_end = $rq->end_hour.":".$rq->end_minute;
+        Attendance::updateOrCreate([
+            'time_start' => $time_start,
+            'lecturer_id' => $rq->lecturer_id,
+            'class_id' => $rq->class_id,
+            'date' => $date,
+            'subject_id' => $rq->subject_id,
+            ],[
+            'time_end' => $time_end,
+
+        ]
+        );
+
+        $lastAtt = Attendance::where('lecturer_id', $rq->lecturer_id)->orderBy('id', 'DESC')->first();
+        $att_id = $lastAtt->id;
+
+        $student = Classes::find($rq->class_id)->students()->get();
+        foreach ($student as $key) {
+            $id = $key->id;
+            $status = $rq->$id;
+            AttendanceDetail::updateOrCreate(
+                ['attendance_id' => $att_id,
+                 'student_id' => $id],[
+                 'status' => $status,
+                ]
+            );
+        }
+        //dd($rq->$id);
+        return redirect("/chon_lop_diem_danh/$rq->lecturer_id");
+
+    }
+
+    public function update_diem_danh() {
+
     }
 }
 
